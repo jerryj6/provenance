@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ca-2023-ab2655",
+    "jurisdiction": "CA",
+    "number": "AB 2655",
+    "title": "Defending Democracy from Deepfake Deception Act of 2024",
+    "session": "2023-2024",
+    "url": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2655",
+    "format": "html",
+    "topics": ["deepfake", "synthetic media", "elections"]
+  },
+  {
+    "id": "ca-2023-ab2839",
+    "jurisdiction": "CA",
+    "number": "AB 2839",
+    "title": "Elections: deceptive media in advertisements",
+    "session": "2023-2024",
+    "url": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2839",
+    "format": "html",
+    "topics": ["deepfake", "synthetic media", "elections"]
+  },
+  {
+    "id": "co-2024-sb205",
+    "jurisdiction": "CO",
+    "number": "SB24-205",
+    "title": "Consumer Protections for Artificial Intelligence",
+    "session": "2024",
+    "url": "https://leg.colorado.gov/sites/default/files/2024a_205_signed.pdf",
+    "format": "pdf",
+    "topics": ["artificial intelligence", "consumer protection"]
+  },
+  {
+    "id": "us-118-s4875",
+    "jurisdiction": "US",
+    "number": "S.4875",
+    "title": "NO FAKES Act of 2024",
+    "session": "118",
+    "url": "https://www.govinfo.gov/content/pkg/BILLS-118s4875is/xml/BILLS-118s4875is.xml",
+    "format": "xml",
+    "topics": ["deepfake", "synthetic media", "artificial intelligence"]
+  },
+  {
+    "id": "fl-2024-hb919",
+    "jurisdiction": "FL",
+    "number": "HB 919",
+    "title": "Artificial Intelligence Use in Political Advertising",
+    "session": "2024",
+    "url": "https://www.flsenate.gov/Session/Bill/2024/919/BillText/er/PDF",
+    "format": "pdf",
+    "topics": ["artificial intelligence", "elections"]
+  },
+  {
+    "id": "mn-2023-hf1370",
+    "jurisdiction": "MN",
+    "number": "HF 1370",
+    "title": "Deepfake technology; use in elections/sexual deepfakes",
+    "session": "2023",
+    "url": "https://www.revisor.mn.gov/bills/text.php?number=HF1370&version=latest&session=ls93&session_year=2023&session_number=0",
+    "format": "html",
+    "topics": ["deepfake", "elections", "synthetic media"]
+  },
+  {
+    "id": "tn-2023-hb2091",
+    "jurisdiction": "TN",
+    "number": "HB 2091",
+    "title": "ELVIS Act",
+    "session": "2023-2024",
+    "url": "https://capitol.tn.gov/Bills/113/Bill/HB2091.pdf",
+    "format": "pdf",
+    "topics": ["artificial intelligence", "voice likeness"]
+  },
+  {
+    "id": "ut-2024-sb149",
+    "jurisdiction": "UT",
+    "number": "SB 149",
+    "title": "Artificial Intelligence Policy Act",
+    "session": "2024",
+    "url": "https://le.utah.gov/~2024/bills/static/SB0149.html",
+    "format": "html",
+    "topics": ["artificial intelligence", "consumer protection"]
+  },
+  {
+    "id": "wi-2023-act123",
+    "jurisdiction": "WI",
+    "number": "2023 Act 123",
+    "title": "AI-generated content in political ads disclosure",
+    "session": "2023-2024",
+    "url": "https://docs.legis.wisconsin.gov/document/acts/2023/123.pdf",
+    "format": "pdf",
+    "topics": ["artificial intelligence", "elections"]
+  }
+]

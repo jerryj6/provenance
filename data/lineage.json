@@ -1,0 +1,361 @@
+{
+  "clusters": [
+    [
+      "ca-2023-ab2655",
+      "ca-2023-ab2839"
+    ]
+  ],
+  "pairs": [
+    {
+      "a": "ca-2023-ab2655",
+      "b": "ca-2023-ab2839",
+      "containment_a_to_b": 0.30752621838371375,
+      "containment_b_to_a": 0.35179957657021876,
+      "evidence": [
+        {
+          "a_end": 978,
+          "a_start": 684,
+          "b_end": 881,
+          "b_start": 587,
+          "text": "of the elections code and actions under chapter 2 commencing with section 21100 of division 21 of the elections code shall be placed on the calendar in the order of their date of filing and shall be given precedence b this section shall remain in effect only until january 1 2027 and as of that date is repealed unless a later enacted statute that is enacted before january 1 2027 deletes or extends that date sec 1 5 section 35 of the code of civil procedure as amended by section 1 of chapter 343 of the statutes of 2023 is amended to read 35 a proceedings in cases involving the registration or denial of registration of voters the certification or denial of certification of candidates the certification or denial of certification of ballot measures election contests actions under section 20010 or 20012 of the elections code actions under chapter 7 commencing with section 20510 of division 20 of the elections code and actions under chapter 2 commencing with section 21100 of division 21 of the elections code shall be placed on the calendar in the order of their date of filing and shall be given precedence b this section shall remain in effect only until january 1 2027 and as of that date is repealed unless a later enacted statute that is enacted before january 1 2027 deletes or extends that date sec 2 section 35 of the code of civil procedure as amended by section 2 of chapter 343 of the statutes of 2023 is amended to read 35 a proceedings in cases involving the registration or denial of registration of voters the certification or denial of certification of candidates the certification or denial of certification of ballot measures election contests actions under",
+          "word_count": 294
+        },
+        {
+          "a_end": 1165,
+          "a_start": 987,
+          "b_end": 1061,
+          "b_start": 883,
+          "text": "of the elections code and actions under chapter 2 commencing with section 21100 of division 21 of the elections code shall be placed on the calendar in the order of their date of filing and shall be given precedence b this section shall become operative january 1 2027 sec 2 5 section 35 of the code of civil procedure as amended by section 2 of chapter 343 of the statutes of 2023 is amended to read 35 a proceedings in cases involving the registration or denial of registration of voters the certification or denial of certification of candidates the certification or denial of certification of ballot measures election contests actions under section 20012 of the elections code actions under chapter 7 commencing with section 20510 of division 20 of the elections code and actions under chapter 2 commencing with section 21100 of division 21 of the elections code shall be placed on the calendar in the order of their date of filing and shall be given precedence b this section shall become operative january 1 2027 sec 3",
+          "word_count": 178
+        },
+        {
+          "a_end": 275,
+          "a_start": 266,
+          "b_end": 218,
+          "b_start": 209,
+          "text": "materially deceptive audio or visual media of a candidate",
+          "word_count": 9
+        }
+      ],
+      "jaccard": 0.19629848395353416,
+      "shared_shingles": 997
+    },
+    {
+      "a": "ca-2023-ab2655",
+      "b": "co-2024-sb205",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2655",
+      "b": "us-118-s4875",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2655",
+      "b": "fl-2024-hb919",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2655",
+      "b": "mn-2023-hf1370",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2655",
+      "b": "tn-2023-hb2091",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2655",
+      "b": "ut-2024-sb149",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2655",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2839",
+      "b": "co-2024-sb205",
+      "containment_a_to_b": 0.0017642907551164433,
+      "containment_b_to_a": 0.0008318083513558476,
+      "evidence": [],
+      "jaccard": 0.0005656108597285068,
+      "shared_shingles": 5
+    },
+    {
+      "a": "ca-2023-ab2839",
+      "b": "us-118-s4875",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2839",
+      "b": "fl-2024-hb919",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2839",
+      "b": "mn-2023-hf1370",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2839",
+      "b": "tn-2023-hb2091",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2839",
+      "b": "ut-2024-sb149",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ca-2023-ab2839",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "co-2024-sb205",
+      "b": "us-118-s4875",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "co-2024-sb205",
+      "b": "fl-2024-hb919",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "co-2024-sb205",
+      "b": "mn-2023-hf1370",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "co-2024-sb205",
+      "b": "tn-2023-hb2091",
+      "containment_a_to_b": 0.0008318083513558476,
+      "containment_b_to_a": 0.0066050198150594455,
+      "evidence": [],
+      "jaccard": 0.0007393168712110011,
+      "shared_shingles": 5
+    },
+    {
+      "a": "co-2024-sb205",
+      "b": "ut-2024-sb149",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "co-2024-sb205",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "us-118-s4875",
+      "b": "fl-2024-hb919",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "us-118-s4875",
+      "b": "mn-2023-hf1370",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "us-118-s4875",
+      "b": "tn-2023-hb2091",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "us-118-s4875",
+      "b": "ut-2024-sb149",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "us-118-s4875",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "fl-2024-hb919",
+      "b": "mn-2023-hf1370",
+      "containment_a_to_b": 0.004291845493562232,
+      "containment_b_to_a": 0.0007522567703109327,
+      "evidence": [],
+      "jaccard": 0.0006404782237403928,
+      "shared_shingles": 3
+    },
+    {
+      "a": "fl-2024-hb919",
+      "b": "tn-2023-hb2091",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "fl-2024-hb919",
+      "b": "ut-2024-sb149",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "fl-2024-hb919",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "mn-2023-hf1370",
+      "b": "tn-2023-hb2091",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "mn-2023-hf1370",
+      "b": "ut-2024-sb149",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "mn-2023-hf1370",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "tn-2023-hb2091",
+      "b": "ut-2024-sb149",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "tn-2023-hb2091",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    },
+    {
+      "a": "ut-2024-sb149",
+      "b": "wi-2023-act123",
+      "containment_a_to_b": 0.0,
+      "containment_b_to_a": 0.0,
+      "evidence": [],
+      "jaccard": 0.0,
+      "shared_shingles": 0
+    }
+  ],
+  "shingle_size": 8,
+  "threshold": 0.15
+}

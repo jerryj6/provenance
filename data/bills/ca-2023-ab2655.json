@@ -1,0 +1,17 @@
+{
+  "id": "ca-2023-ab2655",
+  "jurisdiction": "CA",
+  "number": "AB 2655",
+  "session": "2023-2024",
+  "source": "public",
+  "text_path": "data/raw/ca-2023-ab2655.html",
+  "text_sha256": "c3f0515af8629c47d927b898e5eb763cb705a32f0f645252c7d1c579067298c4",
+  "title": "Defending Democracy from Deepfake Deception Act of 2024",
+  "topics": [
+    "deepfake",
+    "synthetic media",
+    "elections"
+  ],
+  "url": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2655",
+  "word_count": 3999
+}

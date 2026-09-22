@@ -1,0 +1,17 @@
+[
+  {
+    "members": [
+      "ca-2023-ab2655",
+      "ca-2023-ab2839"
+    ],
+    "title": "CA AB 2655 and CA AB 2839 share 35% of their text",
+    "top_evidence_passage": {
+      "a_end": 275,
+      "a_start": 266,
+      "b_end": 218,
+      "b_start": 209,
+      "text": "materially deceptive audio or visual media of a candidate",
+      "word_count": 9
+    }
+  }
+]
