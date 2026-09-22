@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import itertools
+from difflib import SequenceMatcher
 from typing import Dict, Iterable, List, Sequence, Set, Tuple
 
 
@@ -47,7 +48,6 @@ def _shared_runs(
         )
     ordered = sorted(unique.values(), key=lambda item: (item[0], -item[1]), reverse=True)
     evidence = []
-    selected_keys = set()
     for length, start_left, end_left, start_right, end_right in ordered:
         if any(
             not (end_left <= item["a_start"] or start_left >= item["a_end"])
@@ -55,9 +55,23 @@ def _shared_runs(
             for item in evidence
         ):
             continue
+        text = " ".join(left[start_left:end_left])
+        if any(text in item["text"] for item in evidence):
+            continue
+        if any(
+            SequenceMatcher(
+                None,
+                text.split(),
+                item["text"].split(),
+                autojunk=False,
+            ).ratio()
+            >= 0.4
+            for item in evidence
+        ):
+            continue
         evidence.append(
             {
-                "text": " ".join(left[start_left:end_left]),
+                "text": text,
                 "a_start": start_left,
                 "a_end": end_left,
                 "b_start": start_right,
@@ -65,27 +79,8 @@ def _shared_runs(
                 "word_count": length,
             }
         )
-        selected_keys.add((start_left, end_left, start_right, end_right))
         if len(evidence) >= limit:
             break
-    if not any("materially deceptive audio or visual media" in item["text"] for item in evidence):
-        for length, start_left, end_left, start_right, end_right in ordered:
-            key = (start_left, end_left, start_right, end_right)
-            text = " ".join(left[start_left:end_left])
-            if key not in selected_keys and "materially deceptive audio or visual media" in text:
-                supplemental = {
-                    "text": text,
-                    "a_start": start_left,
-                    "a_end": end_left,
-                    "b_start": start_right,
-                    "b_end": end_right,
-                    "word_count": length,
-                }
-                if len(evidence) >= limit:
-                    evidence[-1] = supplemental
-                else:
-                    evidence.append(supplemental)
-                break
     return evidence
 
 

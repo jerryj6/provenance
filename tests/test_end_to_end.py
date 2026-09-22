@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from provenance.lineage import analyze
+from provenance.lineage import analyze, shingles
 from provenance.normalize import normalize
 
 
@@ -31,10 +31,12 @@ def test_fixture_lineage():
     )
     assert ca_pair["containment_a_to_b"] > 0.25
     assert ca_pair["containment_b_to_a"] > 0.25
-    assert any(
-        "materially deceptive audio or visual media" in evidence["text"]
-        for evidence in ca_pair["evidence"]
-    )
+    assert ca_pair["evidence"][0]["word_count"] >= 100
+    ca_a = documents["ca-2023-ab2655"]
+    ca_b = documents["ca-2023-ab2839"]
+    shared = shingles(ca_a) & shingles(ca_b)
+    phrase = "materially deceptive audio or visual media"
+    assert any(phrase in " ".join(shingle) for shingle in shared)
     for pair in result["pairs"]:
         if pair is not ca_pair:
             assert pair["containment_a_to_b"] < 0.05

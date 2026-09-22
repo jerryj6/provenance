@@ -64,15 +64,11 @@ def publish(
             share,
         )
         evidence = strongest.get("evidence", [])
-        top_evidence = next(
-            (item for item in evidence if "materially deceptive audio or visual media" in item["text"]),
-            evidence[0] if evidence else None,
-        )
         findings.append(
             {
                 "title": title,
                 "members": members,
-                "top_evidence_passage": top_evidence,
+                "top_evidence_passage": evidence[0] if evidence else None,
             }
         )
     _write_json(root / "findings.json", findings)

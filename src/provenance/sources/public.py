@@ -21,6 +21,9 @@ def fetch_bill(
 ) -> Path:
     target = Path(bill.text_path or ("data/raw/%s" % bill.id))
     target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists() and target.stat().st_size:
+        LOG.info("using existing %s", target)
+        return target
     client = session or requests.Session()
     last_error = None
     for attempt in range(retries):
