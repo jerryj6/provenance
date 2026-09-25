@@ -12,7 +12,7 @@ struct CorpusView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 26) {
                     header
                     ForEach(grouped, id: \.jurisdiction) { group in
                         jurisdictionSection(group)
@@ -46,7 +46,7 @@ struct CorpusView: View {
     }
 
     private func jurisdictionSection(_ group: (jurisdiction: String, bills: [Bill])) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .firstTextBaseline) {
                 Text(group.bills.first?.jurisdictionName ?? group.jurisdiction)
                     .font(.display(19, weight: .semibold))
@@ -54,13 +54,14 @@ struct CorpusView: View {
                 Spacer()
                 Eyebrow("\(group.bills.count) \(group.bills.count == 1 ? "bill" : "bills")", color: Theme.tertiary)
             }
-            VStack(spacing: 8) {
-                ForEach(group.bills) { bill in
-                    NavigationLink(value: bill) {
-                        BillRow(bill: bill)
-                    }
-                    .buttonStyle(CardButtonStyle())
+            .padding(.bottom, 8)
+            Rule()
+
+            ForEach(group.bills) { bill in
+                NavigationLink(value: bill) {
+                    BillRow(bill: bill)
                 }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -71,7 +72,7 @@ struct BillRow: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            JurisdictionSeal(code: bill.jurisdiction, size: 44)
+            JurisdictionSeal(code: bill.jurisdiction, size: 42)
             VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
                     Text(bill.number)
@@ -106,9 +107,8 @@ struct BillRow: View {
                 .font(.system(size: 11, weight: .bold))
                 .foregroundStyle(Theme.tertiary)
         }
-        .padding(14)
-        .background(Theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Theme.hairline))
+        .padding(.vertical, 14)
+        .overlay(alignment: .bottom) { Rule() }
+        .contentShape(Rectangle())
     }
 }

@@ -12,14 +12,17 @@ enum Theme {
     static let secondary = Color.white.opacity(0.58)
     static let tertiary = Color.white.opacity(0.34)
 
-    /// Highlighter amber — the mark of found copied text.
+    /// Highlighter amber — spent only on shared-text signal, never decoration.
     static let amber = Color(red: 0.949, green: 0.702, blue: 0.212)
     static let amberDeep = Color(red: 0.820, green: 0.580, blue: 0.130)
     static let amberSoft = Color(red: 0.949, green: 0.702, blue: 0.212).opacity(0.14)
+}
 
-    /// Slate-blue for secondary/jurisdictional accents.
-    static let slate = Color(red: 0.490, green: 0.584, blue: 0.776)
-    static let slateSoft = Color(red: 0.490, green: 0.584, blue: 0.776).opacity(0.14)
+/// 1pt section rule — the primary chrome of the report layout.
+struct Rule: View {
+    var body: some View {
+        Rectangle().fill(Theme.hairline).frame(height: 1)
+    }
 }
 
 extension Font {
@@ -53,31 +56,26 @@ struct Eyebrow: View {
     }
 }
 
-/// Rounded jurisdiction seal — like a postal postmark stamp.
+/// Outlined jurisdiction mark — neutral postmark, never an accent.
 struct JurisdictionSeal: View {
     let code: String
     var size: CGFloat = 34
-    var accent: Color = Theme.amber
 
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
-                .fill(Theme.surfaceRaised)
-                .overlay(
-                    RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
-                        .strokeBorder(Theme.hairlineStrong, lineWidth: 1)
-                )
+                .strokeBorder(Theme.hairlineStrong, lineWidth: 1)
             Text(code)
-                .font(.mono(size * 0.34, weight: .bold))
+                .font(.mono(size * 0.32, weight: .semibold))
                 .tracking(0.5)
-                .foregroundStyle(accent)
+                .foregroundStyle(Theme.secondary)
         }
         .frame(width: size, height: size)
     }
 }
 
-/// A stat tile — mono value over uppercase label.
-struct StatTile: View {
+/// Flat metric column — value over label, divided by hairlines, no chrome.
+struct MetricColumn: View {
     let value: String
     let label: String
     var accent: Color = Theme.text
@@ -85,19 +83,37 @@ struct StatTile: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(value)
-                .font(.mono(20, weight: .semibold))
+                .font(.mono(18, weight: .semibold))
                 .foregroundStyle(accent)
                 .monospacedDigit()
-            Eyebrow(label)
+            Eyebrow(label, color: Theme.tertiary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
-        .background(Theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .strokeBorder(Theme.hairline, lineWidth: 1)
-        )
+    }
+}
+
+/// A row of metrics separated by thin vertical rules.
+struct MetricsRow: View {
+    let items: [(value: String, label: String, accent: Color)]
+
+    init(_ items: [(String, String, Color)] = []) {
+        self.items = items
+    }
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(Array(items.enumerated()), id: \.offset) { i, item in
+                if i > 0 {
+                    Rectangle()
+                        .fill(Theme.hairline)
+                        .frame(width: 1)
+                        .padding(.vertical, 4)
+                }
+                MetricColumn(value: item.value, label: item.label, accent: item.accent)
+                    .padding(.leading, i == 0 ? 0 : 18)
+            }
+        }
+        .padding(.vertical, 16)
     }
 }
 
@@ -142,7 +158,7 @@ struct CardButtonStyle: ButtonStyle {
     }
 }
 
-/// Small pill for topic tags.
+/// Small hairline pill for topic tags — neutral, structural.
 struct TopicTag: View {
     let text: String
     var body: some View {
@@ -151,8 +167,6 @@ struct TopicTag: View {
             .foregroundStyle(Theme.secondary)
             .padding(.horizontal, 9)
             .padding(.vertical, 5)
-            .background(Theme.slateSoft)
-            .clipShape(Capsule())
-            .overlay(Capsule().strokeBorder(Theme.slate.opacity(0.25), lineWidth: 0.5))
+            .overlay(Capsule().strokeBorder(Theme.hairlineStrong, lineWidth: 1))
     }
 }

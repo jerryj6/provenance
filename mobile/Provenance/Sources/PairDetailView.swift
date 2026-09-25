@@ -9,18 +9,28 @@ struct PairDetailView: View {
         let b = store.bill(pair.b)
 
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 0) {
                 if let a, let b {
                     versusHeader(a: a, b: b)
+                        .padding(.bottom, 26)
                 }
 
                 containmentSection(a: a, b: b)
+                    .padding(.bottom, 8)
 
-                metricsStrip
+                MetricsRow([
+                    (String(format: "%.3f", pair.jaccard), "Jaccard", Theme.text),
+                    ("\(pair.shared_shingles)", "Shingles", Theme.text),
+                    ("\(pair.evidence.count)", "Passages", Theme.text),
+                ])
+                Rule()
+                    .padding(.bottom, 28)
 
                 evidenceSection(a: a, b: b)
+                    .padding(.bottom, 30)
 
                 caveat
+                    .padding(.bottom, 30)
 
                 sourcesSection(a: a, b: b)
             }
@@ -37,30 +47,26 @@ struct PairDetailView: View {
         }
     }
 
+    // MARK: - Versus header
+
     private func versusHeader(a: Bill, b: Bill) -> some View {
         VStack(spacing: 0) {
             billBlock(a)
             HStack(spacing: 12) {
-                Rectangle().fill(Theme.hairline).frame(height: 1)
-                ZStack {
-                    Circle()
-                        .fill(Theme.amber)
-                        .frame(width: 44, height: 44)
-                    Text("\(Int((pair.maxContainment * 100).rounded()))%")
-                        .font(.mono(13, weight: .bold))
-                        .foregroundStyle(Theme.canvas)
-                }
-                .shadow(color: Theme.amber.opacity(0.35), radius: 12)
-                Rectangle().fill(Theme.hairline).frame(height: 1)
+                Rule()
+                Text("\(Int((pair.maxContainment * 100).rounded()))%")
+                    .font(.mono(20, weight: .bold))
+                    .foregroundStyle(Theme.amber)
+                    .monospacedDigit()
+                Rule()
             }
-            .padding(.vertical, 4)
             billBlock(b)
         }
     }
 
     private func billBlock(_ bill: Bill) -> some View {
         HStack(spacing: 14) {
-            JurisdictionSeal(code: bill.jurisdiction, size: 46)
+            JurisdictionSeal(code: bill.jurisdiction, size: 44)
             VStack(alignment: .leading, spacing: 4) {
                 Text(bill.number)
                     .font(.display(20, weight: .bold))
@@ -72,28 +78,30 @@ struct PairDetailView: View {
             }
             Spacer()
         }
-        .padding(.vertical, 10)
+        .padding(.vertical, 14)
     }
 
+    // MARK: - Directional containment
+
     private func containmentSection(a: Bill?, b: Bill?) -> some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 16) {
             Eyebrow("Directional containment")
-            directionalRow(
-                label: "\(a?.number ?? pair.a) found inside \(b?.number ?? pair.b)",
-                value: pair.containment_a_to_b
-            )
-            directionalRow(
-                label: "\(b?.number ?? pair.b) found inside \(a?.number ?? pair.a)",
-                value: pair.containment_b_to_a
-            )
+            VStack(spacing: 14) {
+                directionalRow(
+                    label: "\(a?.number ?? pair.a) found inside \(b?.number ?? pair.b)",
+                    value: pair.containment_a_to_b
+                )
+                directionalRow(
+                    label: "\(b?.number ?? pair.b) found inside \(a?.number ?? pair.a)",
+                    value: pair.containment_b_to_a
+                )
+            }
             Text("Share of one bill's 8-word shingles also present in the other.")
                 .font(.mono(10.5))
                 .foregroundStyle(Theme.tertiary)
         }
-        .padding(16)
-        .background(Theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Theme.hairline))
+        .padding(.bottom, 20)
+        .overlay(alignment: .bottom) { Rule() }
     }
 
     private func directionalRow(label: String, value: Double) -> some View {
@@ -111,16 +119,10 @@ struct PairDetailView: View {
         }
     }
 
-    private var metricsStrip: some View {
-        HStack(spacing: 10) {
-            StatTile(value: String(format: "%.3f", pair.jaccard), label: "Jaccard")
-            StatTile(value: "\(pair.shared_shingles)", label: "Shingles")
-            StatTile(value: "\(pair.evidence.count)", label: "Passages")
-        }
-    }
+    // MARK: - Evidence
 
     private func evidenceSection(a: Bill?, b: Bill?) -> some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 18) {
             HStack(alignment: .firstTextBaseline) {
                 Eyebrow("Evidence passages")
                 Spacer()
@@ -145,6 +147,8 @@ struct PairDetailView: View {
         }
     }
 
+    // MARK: - Caveat & sources
+
     private var caveat: some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "exclamationmark.triangle")
@@ -155,22 +159,21 @@ struct PairDetailView: View {
                 .foregroundStyle(Theme.secondary)
                 .lineSpacing(4)
         }
-        .padding(14)
-        .background(Theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Theme.amber.opacity(0.2)))
+        .padding(.bottom, 20)
+        .overlay(alignment: .bottom) { Rule() }
     }
 
     private func sourcesSection(a: Bill?, b: Bill?) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 0) {
             Eyebrow("Sources")
+                .padding(.bottom, 10)
             ForEach([a, b].compactMap { $0 }) { bill in
                 if let url = URL(string: bill.url) {
                     Link(destination: url) {
-                        HStack(spacing: 10) {
+                        HStack(spacing: 12) {
                             Image(systemName: "doc.text")
                                 .font(.system(size: 12))
-                                .foregroundStyle(Theme.slate)
+                                .foregroundStyle(Theme.tertiary)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("\(bill.jurisdiction) \(bill.number) — official text")
                                     .font(.system(size: 13, weight: .medium))
@@ -185,7 +188,8 @@ struct PairDetailView: View {
                                 .font(.system(size: 11, weight: .semibold))
                                 .foregroundStyle(Theme.tertiary)
                         }
-                        .padding(.vertical, 8)
+                        .padding(.vertical, 12)
+                        .overlay(alignment: .bottom) { Rule() }
                     }
                 }
             }

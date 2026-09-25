@@ -6,11 +6,24 @@ struct FindingsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 28) {
+                VStack(alignment: .leading, spacing: 0) {
                     header
-                    statStrip
-                    similarityMatrixCard
+                        .padding(.bottom, 24)
+
+                    Rule()
+                    MetricsRow([
+                        ("\(store.bills.count)", "Bills", Theme.text),
+                        ("\(store.lineage.pairs.count)", "Pairs read", Theme.text),
+                        ("\(store.clusters().count)", "Clusters", store.clusters().isEmpty ? Theme.text : Theme.amber),
+                    ])
+                    Rule()
+                        .padding(.bottom, 28)
+
+                    corpusMap
+                        .padding(.bottom, 32)
+
                     findingsSection
+
                     footer
                 }
                 .padding(.horizontal, 20)
@@ -24,11 +37,7 @@ struct FindingsView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                Eyebrow("Legislative lineage")
-                Circle().fill(Theme.amber).frame(width: 4, height: 4)
-                Eyebrow("Live corpus")
-            }
+            Eyebrow("Legislative lineage • Live corpus")
             Text("Who wrote\nthis law?")
                 .font(.display(44, weight: .bold))
                 .tracking(-1.2)
@@ -41,56 +50,54 @@ struct FindingsView: View {
         }
     }
 
-    private var statStrip: some View {
-        HStack(spacing: 10) {
-            StatTile(value: "\(store.bills.count)", label: "Bills")
-            StatTile(value: "\(store.lineage.pairs.count)", label: "Pairs read")
-            StatTile(
-                value: "\(store.linkedPairs().count)",
-                label: "Clusters",
-                accent: store.linkedPairs().isEmpty ? Theme.text : Theme.amber
-            )
-        }
-    }
+    // MARK: - Corpus map
 
-    private var similarityMatrixCard: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack {
+    private var corpusMap: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(alignment: .firstTextBaseline) {
                 Eyebrow("Corpus map")
                 Spacer()
                 Eyebrow("All pairs", color: Theme.tertiary)
             }
             SimilarityMatrix(bills: store.bills, pairs: store.lineage.pairs)
-            HStack(spacing: 16) {
-                legendSwatch(Theme.amber.opacity(0.7), "Linked pair — tap a cell")
-                legendSwatch(Color.white.opacity(0.05), "Below threshold")
+            HStack(spacing: 18) {
+                legendMark("Linked pair — tap a cell", amber: true)
+                legendMark("Below threshold", amber: false)
             }
         }
-        .padding(16)
-        .background(Theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(Theme.hairline))
     }
 
-    private func legendSwatch(_ color: Color, _ label: String) -> some View {
-        HStack(spacing: 6) {
-            RoundedRectangle(cornerRadius: 3).fill(color).frame(width: 12, height: 12)
-                .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(Theme.hairline))
-            Text(label).font(.mono(10)).foregroundStyle(Theme.tertiary)
+    private func legendMark(_ label: String, amber: Bool) -> some View {
+        HStack(spacing: 7) {
+            if amber {
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(Theme.amber)
+                    .frame(width: 10, height: 10)
+            } else {
+                Circle()
+                    .fill(Theme.tertiary)
+                    .frame(width: 4, height: 4)
+                    .padding(3)
+            }
+            Text(label)
+                .font(.mono(10))
+                .foregroundStyle(Theme.tertiary)
         }
     }
 
+    // MARK: - Findings
+
     private var findingsSection: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 22) {
             HStack(alignment: .firstTextBaseline) {
                 Eyebrow("Findings")
                 Spacer()
-                Eyebrow("\(store.findings.count) clusters", color: Theme.tertiary)
+                Eyebrow("\(store.findings.count) \(store.findings.count == 1 ? "cluster" : "clusters")", color: Theme.tertiary)
             }
             ForEach(Array(store.findings.enumerated()), id: \.element.id) { index, finding in
                 if let pair = store.pair(for: finding) {
                     NavigationLink(value: pair) {
-                        FindingCard(index: index + 1, finding: finding, pair: pair)
+                        FindingEntry(index: index + 1, finding: finding, pair: pair)
                             .environmentObject(store)
                     }
                     .buttonStyle(CardButtonStyle())
@@ -103,8 +110,8 @@ struct FindingsView: View {
     }
 
     private var footer: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Rectangle().fill(Theme.hairline).frame(height: 1)
+        VStack(alignment: .leading, spacing: 10) {
+            Rule()
             HStack {
                 Text("PROVENANCE")
                     .font(.mono(10, weight: .bold)).tracking(2)
@@ -117,25 +124,33 @@ struct FindingsView: View {
                 }
             }
         }
-        .padding(.top, 8)
+        .padding(.top, 36)
     }
 }
 
-// MARK: - Finding card
+// MARK: - Finding entry — an editorial line item, not a card
 
-struct FindingCard: View {
+struct FindingEntry: View {
     let index: Int
     let finding: Finding
     let pair: Pair
     @EnvironmentObject private var store: CorpusStore
 
+    /// containment_a_to_b = share of A's shingles found inside B.
+    private var direction: (from: Bill?, to: Bill?, share: Double) {
+        if pair.containment_a_to_b >= pair.containment_b_to_a {
+            return (store.bill(pair.a), store.bill(pair.b), pair.containment_a_to_b)
+        }
+        return (store.bill(pair.b), store.bill(pair.a), pair.containment_b_to_a)
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .firstTextBaseline) {
                 Eyebrow("Finding \(String(format: "%02d", index))", color: Theme.amber)
                 Spacer()
                 Image(systemName: "arrow.up.right")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(Theme.tertiary)
             }
 
@@ -146,47 +161,46 @@ struct FindingCard: View {
                 .fixedSize(horizontal: false, vertical: true)
 
             if let a = store.bill(pair.a), let b = store.bill(pair.b) {
-                HStack(spacing: 10) {
-                    miniBill(a)
+                HStack(spacing: 12) {
+                    billRef(a)
                     Image(systemName: "arrow.left.arrow.right")
-                        .font(.system(size: 11, weight: .bold))
-                        .foregroundStyle(Theme.amber)
-                    miniBill(b)
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(Theme.tertiary)
+                    billRef(b)
                 }
             }
 
+            let d = direction
             VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text("\(Int((pair.maxContainment * 100).rounded()))%")
+                (
+                    Text("\(Int((d.share * 100).rounded()))%")
                         .font(.mono(13, weight: .bold))
                         .foregroundStyle(Theme.amber)
-                    Text("of \(store.bill(pair.b)?.number ?? pair.b)'s text appears in \(store.bill(pair.a)?.number ?? pair.a)")
+                    +
+                    Text(" of \(d.from?.number ?? "?")'s text appears in \(d.to?.number ?? "?")")
                         .font(.mono(11))
                         .foregroundStyle(Theme.secondary)
-                }
-                ContainmentBar(value: pair.maxContainment)
+                )
+                ContainmentBar(value: d.share)
             }
 
             DocumentExcerpt(evidence: finding.top_evidence_passage, collapsed: true)
         }
-        .padding(18)
-        .background(Theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(Theme.hairline))
+        .padding(.top, 4)
+        .padding(.bottom, 18)
+        .overlay(alignment: .bottom) { Rule() }
     }
 
-    private func miniBill(_ bill: Bill) -> some View {
+    private func billRef(_ bill: Bill) -> some View {
         HStack(spacing: 8) {
-            JurisdictionSeal(code: bill.jurisdiction, size: 30)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(bill.number).font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.text)
-                Text(bill.session).font(.mono(10)).foregroundStyle(Theme.tertiary)
-            }
+            JurisdictionSeal(code: bill.jurisdiction, size: 26)
+            Text(bill.number)
+                .font(.system(size: 13.5, weight: .semibold))
+                .foregroundStyle(Theme.text)
+            Text(bill.session)
+                .font(.mono(10))
+                .foregroundStyle(Theme.tertiary)
         }
-        .padding(8)
-        .background(Theme.surfaceRaised)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Theme.hairline))
     }
 }
 
@@ -223,12 +237,7 @@ struct DocumentExcerpt: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            ZStack {
-                Theme.amberSoft.opacity(0.5)
-                LinearGradient(colors: [Theme.amber.opacity(0.08), .clear], startPoint: .top, endPoint: .bottom)
-            }
-        )
+        .background(Theme.amberSoft.opacity(0.5))
         .overlay(alignment: .leading) {
             Rectangle().fill(Theme.amber.opacity(0.7)).frame(width: 2)
         }
@@ -260,7 +269,6 @@ struct SimilarityMatrix: View {
     var body: some View {
         let n = bills.count
         VStack(spacing: 10) {
-            // Column headers (vertical text)
             HStack(spacing: cellGap) {
                 Text("").frame(width: 26)
                 ForEach(bills) { bill in
@@ -323,7 +331,6 @@ struct SimilarityMatrix: View {
 
     private func color(for score: Double, linked: Bool) -> Color {
         if linked { return Theme.amber.opacity(0.16 + score * 1.7) }
-        if score > 0.005 { return Theme.slate.opacity(0.10) }
         return Color.white.opacity(0.04)
     }
 

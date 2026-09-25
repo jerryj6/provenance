@@ -64,6 +64,9 @@ struct CorpusManifest: Codable {
 
     var runDate: Date? {
         let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let d = f.date(from: run_timestamp) { return d }
+        f.formatOptions = [.withInternetDateTime]
         return f.date(from: run_timestamp)
     }
 }
@@ -87,8 +90,13 @@ final class CorpusStore: ObservableObject {
 
     func bill(_ id: String) -> Bill? { byID[id] }
 
+    /// Strongest pair inside a finding's cluster — clusters with 3+ members
+    /// have no single pair covering all of them.
     func pair(for finding: Finding) -> Pair? {
-        lineage.pairs.first { Set([$0.a, $0.b]) == Set(finding.members) }
+        let members = Set(finding.members)
+        return lineage.pairs
+            .filter { members.contains($0.a) && members.contains($0.b) }
+            .max(by: { $0.maxContainment < $1.maxContainment })
     }
 
     func pairs(involving billID: String) -> [Pair] {
@@ -120,16 +128,30 @@ final class CorpusStore: ObservableObject {
         let findings: [Finding] = decode("findings", subdir: "Data")
 
         var bills: [Bill] = []
+        var warnings: [String] = []
         if let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "Data/bills") {
-            bills = urls.compactMap { url in
-                guard let data = try? Data(contentsOf: url) else { return nil }
-                return try? decoder.decode(Bill.self, from: data)
+            for url in urls {
+                guard let data = try? Data(contentsOf: url),
+                      let bill = try? decoder.decode(Bill.self, from: data) else {
+                    warnings.append("Undecodable bill resource: \(url.lastPathComponent)")
+                    continue
+                }
+                bills.append(bill)
             }
         }
+        let known = Set(bills.map(\.id))
+        let dropped = lineage.pairs.filter { !known.contains($0.a) || !known.contains($0.b) }
+        if !dropped.isEmpty {
+            warnings.append("\(dropped.count) lineage pair(s) reference missing bills and were dropped")
+        }
+        let cleanLineage = Lineage(clusters: lineage.clusters, pairs: lineage.pairs.filter { known.contains($0.a) && known.contains($0.b) })
+        #if DEBUG
+        warnings.forEach { assertionFailure($0) }
+        #endif
 
         return CorpusStore(
             bills: bills.sorted { $0.id < $1.id },
-            lineage: lineage,
+            lineage: cleanLineage,
             findings: findings,
             manifest: manifest
         )
