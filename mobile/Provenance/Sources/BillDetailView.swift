@@ -14,6 +14,7 @@ struct BillDetailView: View {
             VStack(alignment: .leading, spacing: 0) {
                 header
                     .padding(.bottom, 24)
+                    .appear(0)
 
                 Rule()
                 MetricsRow([
@@ -23,11 +24,14 @@ struct BillDetailView: View {
                 ])
                 Rule()
                     .padding(.bottom, 28)
+                    .appear(1)
 
                 lineageSection
                     .padding(.bottom, 30)
+                    .appear(2)
 
                 sourceSection
+                    .appear(3)
             }
             .padding(.horizontal, 20)
             .padding(.top, 12)

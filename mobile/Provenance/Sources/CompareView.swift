@@ -50,10 +50,14 @@ struct CompareView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 34) {
                     header
+                        .appear(0)
                     pickers
+                        .appear(1)
                     analyzeButton
+                        .appear(2)
                     if let result { results(result) }
                     corpusCheckSection
+                        .appear(3)
                     footerPad
                 }
                 .padding(.horizontal, 22)

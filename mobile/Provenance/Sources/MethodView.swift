@@ -9,19 +9,24 @@ struct MethodView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     header
                         .padding(.bottom, 26)
+                        .appear(0)
                     Rule()
                         .padding(.bottom, 26)
 
                     pipelineSection
                         .padding(.bottom, 30)
+                        .appear(1)
 
                     metricsSection
                         .padding(.bottom, 30)
+                        .appear(2)
 
                     limitationsSection
                         .padding(.bottom, 30)
+                        .appear(3)
 
                     dataSection
+                        .appear(4)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)

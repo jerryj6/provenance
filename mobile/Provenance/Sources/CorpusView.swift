@@ -14,8 +14,10 @@ struct CorpusView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 26) {
                     header
-                    ForEach(grouped, id: \.jurisdiction) { group in
+                        .appear(0)
+                    ForEach(Array(grouped.enumerated()), id: \.element.jurisdiction) { index, group in
                         jurisdictionSection(group)
+                            .appear(index + 1)
                     }
                 }
                 .padding(.horizontal, 20)

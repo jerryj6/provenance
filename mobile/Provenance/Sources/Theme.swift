@@ -158,6 +158,46 @@ struct CardButtonStyle: ButtonStyle {
     }
 }
 
+/// Staggered entrance — rise 10pt + fade, delayed by index. One modifier,
+/// applied top-to-bottom so a screen assembles itself like a readout powering on.
+struct Appear: ViewModifier {
+    let index: Int
+    @State private var on = false
+
+    func body(content: Content) -> some View {
+        content
+            .opacity(on ? 1 : 0)
+            .offset(y: on ? 0 : 10)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.5).delay(0.05 * Double(index))) { on = true }
+            }
+    }
+}
+
+extension View {
+    func appear(_ index: Int) -> some View { modifier(Appear(index: index)) }
+}
+
+/// Number that eases 0→target on appear — the command-console counter.
+struct CountUp: View {
+    let value: Double
+    var format: (Double) -> String
+    @State private var t: Double = 0
+
+    init(_ value: Double, format: @escaping (Double) -> String = { String(Int($0.rounded())) }) {
+        self.value = value
+        self.format = format
+    }
+
+    var body: some View {
+        Text(format(value * t))
+            .monospacedDigit()
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.9)) { t = 1 }
+            }
+    }
+}
+
 /// Small hairline pill for topic tags — neutral, structural.
 struct TopicTag: View {
     let text: String

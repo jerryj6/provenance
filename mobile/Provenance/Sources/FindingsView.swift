@@ -9,6 +9,7 @@ struct FindingsView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     header
                         .padding(.bottom, 24)
+                        .appear(0)
 
                     Rule()
                     MetricsRow([
@@ -18,11 +19,14 @@ struct FindingsView: View {
                     ])
                     Rule()
                         .padding(.bottom, 28)
+                        .appear(1)
 
                     corpusMap
                         .padding(.bottom, 32)
+                        .appear(2)
 
                     findingsSection
+                        .appear(3)
 
                     footer
                 }
@@ -162,10 +166,9 @@ struct FindingEntry: View {
             let d = direction
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .firstTextBaseline) {
-                    Text("\(Int((d.share * 100).rounded()))%")
+                    CountUp(d.share * 100, format: { "\(Int($0.rounded()))%" })
                         .font(.mono(22, weight: .bold))
                         .foregroundStyle(Theme.amber)
-                        .monospacedDigit()
                     Spacer()
                     Text("\(d.from?.number ?? "?") ⊂ \(d.to?.number ?? "?")")
                         .font(.mono(11))

@@ -17,6 +17,8 @@ struct CoverageMap: View {
     var labelA: String = "A"
     var labelB: String = "B"
 
+    @State private var t: Double = 0
+
     var body: some View {
         VStack(spacing: 10) {
             GeometryReader { geo in
@@ -35,8 +37,8 @@ struct CoverageMap: View {
                         let ab = CGFloat(band.aEnd) / CGFloat(max(wordsA, 1))
                         let bt = CGFloat(band.bStart) / CGFloat(max(wordsB, 1))
                         let bb = CGFloat(band.bEnd) / CGFloat(max(wordsB, 1))
-                        let ah = max(ab - at, 0.006) * h
-                        let bh = max(bb - bt, 0.006) * h
+                        let ah = max(ab - at, 0.006) * h * t
+                        let bh = max(bb - bt, 0.006) * h * t
                         let aRect = CGRect(x: ax, y: at * h, width: colW, height: ah)
                         let bRect = CGRect(x: bx, y: bt * h, width: colW, height: bh)
                         var ribbon = Path()
@@ -58,6 +60,9 @@ struct CoverageMap: View {
                 }
             }
             .frame(height: 150)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.9).delay(0.15)) { t = 1 }
+            }
             HStack {
                 Text(labelA).font(.mono(11, weight: .semibold)).foregroundStyle(Theme.secondary)
                 Spacer()

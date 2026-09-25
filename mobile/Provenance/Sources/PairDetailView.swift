@@ -13,10 +13,12 @@ struct PairDetailView: View {
                 if let a, let b {
                     versusHeader(a: a, b: b)
                         .padding(.bottom, 26)
+                        .appear(0)
                 }
 
                 containmentSection(a: a, b: b)
                     .padding(.bottom, 8)
+                    .appear(1)
 
                 if let a, let b, !pair.evidence.isEmpty {
                     CoverageMap(
@@ -25,6 +27,7 @@ struct PairDetailView: View {
                         labelA: a.number, labelB: b.number
                     )
                     .padding(.bottom, 26)
+                    .appear(2)
                 }
 
                 MetricsRow([
@@ -34,14 +37,18 @@ struct PairDetailView: View {
                 ])
                 Rule()
                     .padding(.bottom, 28)
+                    .appear(3)
 
                 evidenceSection(a: a, b: b)
                     .padding(.bottom, 30)
+                    .appear(4)
 
                 caveat
                     .padding(.bottom, 30)
+                    .appear(5)
 
                 sourcesSection(a: a, b: b)
+                    .appear(6)
             }
             .padding(.horizontal, 20)
             .padding(.top, 12)
@@ -63,10 +70,9 @@ struct PairDetailView: View {
             billBlock(a)
             HStack(spacing: 12) {
                 Rule()
-                Text("\(Int((pair.maxContainment * 100).rounded()))%")
+                CountUp(pair.maxContainment * 100, format: { "\(Int($0.rounded()))%" })
                     .font(.mono(20, weight: .bold))
                     .foregroundStyle(Theme.amber)
-                    .monospacedDigit()
                 Rule()
             }
             billBlock(b)
