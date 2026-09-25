@@ -43,10 +43,7 @@ struct FindingsView: View {
                 .tracking(-1.2)
                 .foregroundStyle(Theme.text)
                 .lineSpacing(-2)
-            Text("Copy-paste detection across \(store.bills.count) AI bills in \(Set(store.bills.map(\.jurisdiction)).count) jurisdictions — every pair compared, passages returned verbatim.")
-                .font(.bodySerif(16))
-                .foregroundStyle(Theme.secondary)
-                .padding(.top, 4)
+
         }
     }
 
@@ -172,15 +169,16 @@ struct FindingEntry: View {
 
             let d = direction
             VStack(alignment: .leading, spacing: 8) {
-                (
+                HStack(alignment: .firstTextBaseline) {
                     Text("\(Int((d.share * 100).rounded()))%")
-                        .font(.mono(13, weight: .bold))
+                        .font(.mono(22, weight: .bold))
                         .foregroundStyle(Theme.amber)
-                    +
-                    Text(" of \(d.from?.number ?? "?")'s text appears in \(d.to?.number ?? "?")")
+                        .monospacedDigit()
+                    Spacer()
+                    Text("\(d.from?.number ?? "?") ⊂ \(d.to?.number ?? "?")")
                         .font(.mono(11))
-                        .foregroundStyle(Theme.secondary)
-                )
+                        .foregroundStyle(Theme.tertiary)
+                }
                 ContainmentBar(value: d.share)
             }
 
@@ -317,7 +315,7 @@ struct SimilarityMatrix: View {
                     Text("\(Int((s * 100).rounded()))")
                         .font(.mono(9, weight: .bold))
                         .foregroundStyle(Theme.amber)
-                } else if s > 0.005 {
+                } else if s > 0 {
                     Circle()
                         .fill(Theme.tertiary)
                         .frame(width: 3, height: 3)

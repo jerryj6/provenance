@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 struct Bill: Identifiable, Codable, Hashable {
     let id: String
@@ -77,26 +78,35 @@ final class CorpusStore: ObservableObject {
     let lineage: Lineage
     let findings: [Finding]
     let manifest: CorpusManifest
+    let loadWarnings: [String]
 
+    private static let logger = Logger(subsystem: "com.jerryj6.provenance", category: "corpus")
     private let byID: [String: Bill]
 
-    init(bills: [Bill], lineage: Lineage, findings: [Finding], manifest: CorpusManifest) {
+    init(bills: [Bill], lineage: Lineage, findings: [Finding], manifest: CorpusManifest, loadWarnings: [String] = []) {
         self.bills = bills
         self.lineage = lineage
         self.findings = findings
         self.manifest = manifest
+        self.loadWarnings = loadWarnings
         self.byID = Dictionary(uniqueKeysWithValues: bills.map { ($0.id, $0) })
     }
 
     func bill(_ id: String) -> Bill? { byID[id] }
 
-    /// Strongest pair inside a finding's cluster — clusters with 3+ members
-    /// have no single pair covering all of them.
+    /// Pair behind a finding's title — publish.py names the first two members;
+    /// fall back to the strongest in-cluster pair for larger clusters.
     func pair(for finding: Finding) -> Pair? {
         let members = Set(finding.members)
+        let named = Set(finding.members.prefix(2))
         return lineage.pairs
             .filter { members.contains($0.a) && members.contains($0.b) }
-            .max(by: { $0.maxContainment < $1.maxContainment })
+            .max(by: { lhs, rhs in
+                let lNamed = named.contains(lhs.a) && named.contains(lhs.b)
+                let rNamed = named.contains(rhs.a) && named.contains(rhs.b)
+                if lNamed != rNamed { return rNamed }
+                return lhs.maxContainment < rhs.maxContainment
+            })
     }
 
     func pairs(involving billID: String) -> [Pair] {
@@ -145,15 +155,14 @@ final class CorpusStore: ObservableObject {
             warnings.append("\(dropped.count) lineage pair(s) reference missing bills and were dropped")
         }
         let cleanLineage = Lineage(clusters: lineage.clusters, pairs: lineage.pairs.filter { known.contains($0.a) && known.contains($0.b) })
-        #if DEBUG
-        warnings.forEach { assertionFailure($0) }
-        #endif
+        warnings.forEach { Self.logger.warning("\($0, privacy: .public)") }
 
         return CorpusStore(
             bills: bills.sorted { $0.id < $1.id },
             lineage: cleanLineage,
             findings: findings,
-            manifest: manifest
+            manifest: manifest,
+            loadWarnings: warnings
         )
     }
 }

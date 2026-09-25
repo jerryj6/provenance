@@ -38,10 +38,7 @@ struct CorpusView: View {
                 .tracking(-1)
                 .foregroundStyle(Theme.text)
                 .lineSpacing(-2)
-            Text("AI-policy legislation from Congress and statehouses — the raw material the lineage engine reads.")
-                .font(.bodySerif(15))
-                .foregroundStyle(Theme.secondary)
-                .padding(.top, 2)
+
         }
     }
 
@@ -87,20 +84,9 @@ struct BillRow: View {
                     .foregroundStyle(Theme.secondary)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
-                HStack(spacing: 6) {
-                    Text("\(bill.word_count.formatted()) words")
-                        .font(.mono(10))
-                        .foregroundStyle(Theme.tertiary)
-                    if let first = bill.topics.first {
-                        TopicTag(text: first)
-                    }
-                    if bill.topics.count > 1 {
-                        Text("+\(bill.topics.count - 1)")
-                            .font(.mono(10, weight: .medium))
-                            .foregroundStyle(Theme.tertiary)
-                    }
-                }
-                .lineLimit(1)
+                Text("\(bill.word_count.formatted()) words")
+                    .font(.mono(10))
+                    .foregroundStyle(Theme.tertiary)
             }
             Spacer()
             Image(systemName: "chevron.right")

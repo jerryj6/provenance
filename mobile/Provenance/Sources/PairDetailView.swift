@@ -88,17 +88,14 @@ struct PairDetailView: View {
             Eyebrow("Directional containment")
             VStack(spacing: 14) {
                 directionalRow(
-                    label: "\(a?.number ?? pair.a) found inside \(b?.number ?? pair.b)",
+                    label: "\(a?.number ?? pair.a) ⊂ \(b?.number ?? pair.b)",
                     value: pair.containment_a_to_b
                 )
                 directionalRow(
-                    label: "\(b?.number ?? pair.b) found inside \(a?.number ?? pair.a)",
+                    label: "\(b?.number ?? pair.b) ⊂ \(a?.number ?? pair.a)",
                     value: pair.containment_b_to_a
                 )
             }
-            Text("Share of one bill's 8-word shingles also present in the other.")
-                .font(.mono(10.5))
-                .foregroundStyle(Theme.tertiary)
         }
         .padding(.bottom, 20)
         .overlay(alignment: .bottom) { Rule() }
@@ -154,7 +151,7 @@ struct PairDetailView: View {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 12))
                 .foregroundStyle(Theme.amber)
-            Text("Similarity is not provenance. Long matches may quote the same existing statute rather than copied language — the longest passage here amends the same Code of Civil Procedure section in both bills.")
+            Text("Similarity is not provenance — the longest passage here amends the same statute section in both bills.")
                 .font(.bodySerif(13))
                 .foregroundStyle(Theme.secondary)
                 .lineSpacing(4)

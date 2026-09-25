@@ -40,10 +40,7 @@ struct MethodView: View {
                 .tracking(-1)
                 .foregroundStyle(Theme.text)
                 .lineSpacing(-2)
-            Text("Reproducible by design: every claim links back to passage-level evidence, and every weakness is disclosed.")
-                .font(.bodySerif(15))
-                .foregroundStyle(Theme.secondary)
-                .padding(.top, 2)
+
         }
     }
 
@@ -51,9 +48,9 @@ struct MethodView: View {
         VStack(alignment: .leading, spacing: 0) {
             Eyebrow("The pipeline")
                 .padding(.bottom, 12)
-            step(number: "01", title: "Normalize", body: "Each bill's official text — HTML, XML, or PDF — is reduced to lowercase words. Formatting, punctuation, and citation style are stripped so only the language remains.")
-            step(number: "02", title: "Shingle", body: "Every document becomes a set of overlapping 8-word sequences. Two bills that copied each other share thousands of identical shingles.")
-            step(number: "03", title: "Compare", body: "All pairs are scored. When either bill contains ≥15% of the other's shingles, the pair is linked and its longest verbatim passages are preserved as evidence.")
+            step(number: "01", title: "Normalize", body: "Official text → lowercase words. Punctuation and formatting stripped.")
+            step(number: "02", title: "Shingle", body: "Each bill → a set of overlapping 8-word sequences.")
+            step(number: "03", title: "Compare", body: "Every pair scored. Links at ≥15% containment; longest shared passages kept as evidence.")
         }
     }
 
@@ -83,16 +80,16 @@ struct MethodView: View {
             Eyebrow("Reading the scores")
                 .padding(.bottom, 10)
             metricRow(
-                name: "Containment",
-                detail: "Directional — the fraction of bill A's shingles found in bill B. High containment means one text may be embedded in the other."
+                name: "A ⊂ B — containment",
+                detail: "Share of bill A's shingles found inside bill B."
             )
             metricRow(
                 name: "Jaccard",
-                detail: "Symmetric overlap — shared shingles divided by all unique shingles. Lower even for true copies when bills differ in length."
+                detail: "Shared shingles ÷ all unique shingles. Symmetric."
             )
             metricRow(
-                name: "Link threshold",
-                detail: "Pairs link at ≥15% directional containment. Below that, matches are usually boilerplate rather than lineage."
+                name: "Link — ≥15%",
+                detail: "Below that, matches are usually boilerplate, not lineage."
             )
         }
     }
@@ -115,9 +112,9 @@ struct MethodView: View {
         VStack(alignment: .leading, spacing: 0) {
             Eyebrow("Honest limits", color: Theme.amberDeep)
                 .padding(.bottom, 10)
-            limitRow(title: "Similarity ≠ provenance", body: "Two bills amending the same statute share its existing text — the corpus's longest match is shared Code of Civil Procedure language, not necessarily copied drafting.")
-            limitRow(title: "Boilerplate noise", body: "Enacting clauses and codification rituals repeat across all legislation and are filtered only by thresholds, not semantic judgment.")
-            limitRow(title: "Corpus scope", body: "Nine bills prove the method. Definitive lineage claims need the full ~300-bill corpus and the change-diff engine that subtracts current statute text.")
+            limitRow(title: "Similarity ≠ provenance", body: "Bills amending the same statute share its existing text — the top match here is shared Code of Civil Procedure language.")
+            limitRow(title: "Boilerplate noise", body: "Enacting clauses repeat across all legislation; filtered by threshold, not judgment.")
+            limitRow(title: "Corpus scope", body: "Nine bills prove the method. Definitive claims need the ~300-bill corpus plus statute-subtraction.")
         }
     }
 
