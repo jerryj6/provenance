@@ -10,6 +10,15 @@ struct CompareView: View {
     @State private var textA = ""
     @State private var textB = ""
     @State private var result: ShingleEngine.AnalysisResult?
+    @State private var corpusCheck: [CheckRow]?
+
+    struct CheckRow: Identifiable {
+        let id: String
+        let bill: Bill
+        let containment: Double   // share of the pasted text found in this bill
+        let sharedShingles: Int
+        var isLinked: Bool { containment >= ShingleEngine.linkThreshold }
+    }
 
     enum DocSource: Hashable {
         case corpus(Int)       // index into store.bills
@@ -44,6 +53,7 @@ struct CompareView: View {
                     pickers
                     analyzeButton
                     if let result { results(result) }
+                    corpusCheckSection
                     footerPad
                 }
                 .padding(.horizontal, 22)
@@ -55,6 +65,82 @@ struct CompareView: View {
                 if let seed, let i = store.bills.firstIndex(of: seed) {
                     selectionA = .corpus(i)
                     router.compareSeed = nil
+                }
+            }
+        }
+    }
+
+    // MARK: - Corpus check (1:N)
+
+    /// Scores the pasted text against every corpus bill — the 'is this
+    /// model legislation?' workflow.
+    private func checkAgainstCorpus() -> [CheckRow] {
+        let pasted = ShingleEngine.tokenize(textA)
+        guard !pasted.isEmpty else { return [] }
+        let pastedShingles = ShingleEngine.shingles(of: pasted)
+        return store.bills.map { bill in
+            let billShingles = ShingleEngine.shingles(of: store.words(for: bill))
+            let shared = pastedShingles.intersection(billShingles).count
+            let containment = pastedShingles.isEmpty ? 0 : Double(shared) / Double(pastedShingles.count)
+            return CheckRow(id: bill.id, bill: bill, containment: containment, sharedShingles: shared)
+        }
+        .sorted { $0.containment > $1.containment }
+    }
+
+    private var corpusCheckSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Eyebrow("Check against corpus")
+            VStack(alignment: .leading, spacing: 10) {
+                TextEditor(text: $textA)
+                    .font(.system(size: 13, design: .monospaced))
+                    .foregroundStyle(Theme.text)
+                    .scrollContentBackground(.hidden)
+                    .frame(minHeight: 110, maxHeight: 160)
+                    .padding(10)
+                    .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(Theme.hairlineStrong))
+                Button {
+                    withAnimation(.easeOut(duration: 0.25)) {
+                        corpusCheck = checkAgainstCorpus()
+                    }
+                } label: {
+                    Text("Check for model language")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(ShingleEngine.tokenize(textA).isEmpty ? Theme.tertiary : Theme.canvas)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(ShingleEngine.tokenize(textA).isEmpty ? Color.white.opacity(0.06) : Theme.amber, in: Capsule())
+                }
+                .buttonStyle(.plain)
+                .disabled(ShingleEngine.tokenize(textA).isEmpty)
+            }
+            if let corpusCheck {
+                VStack(spacing: 0) {
+                    ForEach(corpusCheck) { row in
+                        HStack(spacing: 12) {
+                            JurisdictionSeal(code: row.bill.jurisdiction, size: 36)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(row.bill.number)
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(Theme.text)
+                                Text(row.bill.title)
+                                    .font(.bodySerif(12))
+                                    .foregroundStyle(Theme.secondary)
+                                    .lineLimit(1)
+                            }
+                            Spacer()
+                            VStack(alignment: .trailing, spacing: 2) {
+                                Text("\(Int((row.containment * 100).rounded()))%")
+                                    .font(.mono(15, weight: .bold))
+                                    .foregroundStyle(row.sharedShingles > 0 ? Theme.amber : Theme.tertiary)
+                                    .monospacedDigit()
+                                Text(row.isLinked ? "model language" : (row.sharedShingles > 0 ? "fragments" : "no match"))
+                                    .font(.mono(9))
+                                    .foregroundStyle(Theme.tertiary)
+                            }
+                        }
+                        .padding(.vertical, 12)
+                        .overlay(alignment: .bottom) { Rule() }
+                    }
                 }
             }
         }
