@@ -34,7 +34,6 @@ struct MethodView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Eyebrow("Methodology & limitations")
             Text("How it reads\na bill")
                 .font(.display(38, weight: .bold))
                 .tracking(-1)
@@ -140,6 +139,18 @@ struct MethodView: View {
             sourceRow("GovInfo (US Congress)", "govinfo.gov")
             sourceRow("State legislature archives", "CO · FL · MN · TN · UT · WI")
             sourceRow("LegiScan API (planned)", "legiscan.com")
+            if !store.loadWarnings.isEmpty {
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.system(size: 11))
+                        .foregroundStyle(Theme.amber)
+                    Text(store.loadWarnings.joined(separator: " · "))
+                        .font(.mono(10))
+                        .foregroundStyle(Theme.secondary)
+                }
+                .padding(.vertical, 12)
+                .overlay(alignment: .bottom) { Rule() }
+            }
             HStack {
                 Text("PIPELINE RUN")
                     .font(.mono(9.5, weight: .semibold)).tracking(1.5)

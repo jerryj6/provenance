@@ -3,6 +3,7 @@ import SwiftUI
 struct BillDetailView: View {
     let bill: Bill
     @EnvironmentObject private var store: CorpusStore
+    @EnvironmentObject private var router: AppRouter
 
     private var linkedPairs: [Pair] {
         store.pairs(involving: bill.id).filter(\.isLinked)
@@ -34,11 +35,6 @@ struct BillDetailView: View {
         }
         .background(Theme.canvas.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Eyebrow("Legislative profile")
-            }
-        }
         .navigationDestination(for: Pair.self) { pair in
             PairDetailView(pair: pair)
         }
@@ -49,12 +45,10 @@ struct BillDetailView: View {
             HStack(alignment: .top) {
                 JurisdictionSeal(code: bill.jurisdiction, size: 56)
                 Spacer()
-                VStack(alignment: .trailing, spacing: 4) {
-                    Eyebrow("Session", color: Theme.tertiary)
-                    Text(bill.session)
-                        .font(.mono(12, weight: .medium))
-                        .foregroundStyle(Theme.secondary)
-                }
+                Text(bill.session)
+                    .font(.mono(12, weight: .medium))
+                    .foregroundStyle(Theme.secondary)
+                    .padding(.top, 4)
             }
             Text(bill.number)
                 .font(.display(40, weight: .bold))
@@ -78,14 +72,8 @@ struct BillDetailView: View {
 
     private var lineageSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .firstTextBaseline) {
-                Eyebrow("Lineage")
-                Spacer()
-                if !linkedPairs.isEmpty {
-                    Eyebrow("\(linkedPairs.count) \(linkedPairs.count == 1 ? "link" : "links")", color: Theme.tertiary)
-                }
-            }
-            .padding(.bottom, 12)
+            Eyebrow("Lineage")
+                .padding(.bottom, 12)
 
             if linkedPairs.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
@@ -132,6 +120,24 @@ struct BillDetailView: View {
                     }
                 }
             }
+            Button {
+                router.compareSeed = bill
+                router.tab = 2
+            } label: {
+                HStack(spacing: 10) {
+                    Text("Compare against another document")
+                        .font(.system(size: 13.5, weight: .medium))
+                        .foregroundStyle(Theme.secondary)
+                    Spacer()
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(Theme.amber)
+                }
+                .padding(.vertical, 13)
+                .overlay(alignment: .bottom) { Rule() }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
         }
     }
 

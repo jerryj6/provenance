@@ -1,28 +1,41 @@
 import SwiftUI
 
+@MainActor
+final class AppRouter: ObservableObject {
+    @Published var tab = 0
+    @Published var compareSeed: Bill?
+}
+
 @main
 struct ProvenanceApp: App {
     @StateObject private var store = CorpusStore.load()
+    @StateObject private var router = AppRouter()
 
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(store)
+                .environmentObject(router)
                 .preferredColorScheme(.dark)
         }
     }
 }
 
 struct RootView: View {
+    @EnvironmentObject private var router: AppRouter
+
     var body: some View {
-        TabView {
-            Tab("Findings", systemImage: "doc.text.magnifyingglass") {
+        TabView(selection: $router.tab) {
+            Tab("Findings", systemImage: "doc.text.magnifyingglass", value: 0) {
                 FindingsView()
             }
-            Tab("Corpus", systemImage: "building.columns") {
+            Tab("Corpus", systemImage: "building.columns", value: 1) {
                 CorpusView()
             }
-            Tab("Method", systemImage: "ruler") {
+            Tab("Compare", systemImage: "arrow.left.arrow.right", value: 2) {
+                CompareView()
+            }
+            Tab("Method", systemImage: "ruler", value: 3) {
                 MethodView()
             }
         }

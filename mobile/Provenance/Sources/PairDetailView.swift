@@ -18,6 +18,15 @@ struct PairDetailView: View {
                 containmentSection(a: a, b: b)
                     .padding(.bottom, 8)
 
+                if let a, let b, !pair.evidence.isEmpty {
+                    CoverageMap(
+                        wordsA: a.word_count, wordsB: b.word_count,
+                        bands: pair.evidence.map { .init(aStart: $0.a_start, aEnd: $0.a_end, bStart: $0.b_start, bEnd: $0.b_end) },
+                        labelA: a.number, labelB: b.number
+                    )
+                    .padding(.bottom, 26)
+                }
+
                 MetricsRow([
                     (String(format: "%.3f", pair.jaccard), "Jaccard", Theme.text),
                     ("\(pair.shared_shingles)", "Shingles", Theme.text),
@@ -120,11 +129,7 @@ struct PairDetailView: View {
 
     private func evidenceSection(a: Bill?, b: Bill?) -> some View {
         VStack(alignment: .leading, spacing: 18) {
-            HStack(alignment: .firstTextBaseline) {
-                Eyebrow("Evidence passages")
-                Spacer()
-                Eyebrow("\(pair.evidence.count) longest", color: Theme.tertiary)
-            }
+            Eyebrow("Shared passages")
             if pair.evidence.isEmpty {
                 Text("No verbatim passages above threshold — this pair shares fewer than 15% of shingles.")
                     .font(.bodySerif(14))

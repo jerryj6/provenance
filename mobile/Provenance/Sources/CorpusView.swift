@@ -32,7 +32,6 @@ struct CorpusView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Eyebrow("The corpus")
             Text("Every bill\nunder analysis")
                 .font(.display(38, weight: .bold))
                 .tracking(-1)
@@ -49,7 +48,9 @@ struct CorpusView: View {
                     .font(.display(19, weight: .semibold))
                     .foregroundStyle(Theme.text)
                 Spacer()
-                Eyebrow("\(group.bills.count) \(group.bills.count == 1 ? "bill" : "bills")", color: Theme.tertiary)
+                Text("\(group.bills.count)")
+                    .font(.mono(12))
+                    .foregroundStyle(Theme.tertiary)
             }
             .padding(.bottom, 8)
             Rule()

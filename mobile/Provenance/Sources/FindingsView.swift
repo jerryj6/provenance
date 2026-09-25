@@ -51,11 +51,7 @@ struct FindingsView: View {
 
     private var corpusMap: some View {
         VStack(alignment: .leading, spacing: 18) {
-            HStack(alignment: .firstTextBaseline) {
-                Eyebrow("Corpus map")
-                Spacer()
-                Eyebrow("All pairs", color: Theme.tertiary)
-            }
+            Eyebrow("Corpus map")
             SimilarityMatrix(bills: store.bills, pairs: store.lineage.pairs)
             HStack(spacing: 18) {
                 legendMark("Linked pair — tap a cell", amber: true)
@@ -86,11 +82,7 @@ struct FindingsView: View {
 
     private var findingsSection: some View {
         VStack(alignment: .leading, spacing: 22) {
-            HStack(alignment: .firstTextBaseline) {
-                Eyebrow("Findings")
-                Spacer()
-                Eyebrow("\(store.findings.count) \(store.findings.count == 1 ? "cluster" : "clusters")", color: Theme.tertiary)
-            }
+            Eyebrow(store.findings.count == 1 ? "1 finding" : "\(store.findings.count) findings")
             ForEach(Array(store.findings.enumerated()), id: \.element.id) { index, finding in
                 if let pair = store.pair(for: finding) {
                     NavigationLink(value: pair) {
