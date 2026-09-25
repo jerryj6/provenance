@@ -1,0 +1,17 @@
+{
+  "id": "us-118-s4875",
+  "jurisdiction": "US",
+  "number": "S.4875",
+  "session": "118",
+  "source": "public",
+  "text_path": "data/raw/us-118-s4875.xml",
+  "text_sha256": "42eb8d3b335ebe05dc231a2bf8b01cf5446e4e70f455f9d8462da48843f662ab",
+  "title": "NO FAKES Act of 2024",
+  "topics": [
+    "deepfake",
+    "synthetic media",
+    "artificial intelligence"
+  ],
+  "url": "https://www.govinfo.gov/content/pkg/BILLS-118s4875is/xml/BILLS-118s4875is.xml",
+  "word_count": 4078
+}
