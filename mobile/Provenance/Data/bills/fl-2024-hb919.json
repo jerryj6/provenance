@@ -1,0 +1,16 @@
+{
+  "id": "fl-2024-hb919",
+  "jurisdiction": "FL",
+  "number": "HB 919",
+  "session": "2024",
+  "source": "public",
+  "text_path": "data/raw/fl-2024-hb919.pdf",
+  "text_sha256": "7593d357a4be7e1cd8a5ef20ab5dc4566df022112a6deb855489459994e6e81a",
+  "title": "Artificial Intelligence Use in Political Advertising",
+  "topics": [
+    "artificial intelligence",
+    "elections"
+  ],
+  "url": "https://www.flsenate.gov/Session/Bill/2024/919/BillText/er/PDF",
+  "word_count": 778
+}
