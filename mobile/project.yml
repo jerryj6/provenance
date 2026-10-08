@@ -1,0 +1,36 @@
+name: Provenance
+options:
+  bundleIdPrefix: com.jerryj6
+  deploymentTarget: "18.0"
+targets:
+  Provenance:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources:
+      - path: Provenance/Sources
+      - path: Provenance/Data
+        type: folder
+      - path: Provenance/Assets.xcassets
+    info:
+      path: Provenance/Info.plist
+      properties:
+        CFBundleDisplayName: Provenance
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchScreen:
+          UIColorName: launchBackground
+          UIImageName: launchGlyph
+          UIImageRespectsSafeAreaInsets: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jerryj6.provenance
+        MARKETING_VERSION: "0.1.0"
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_FILE: Provenance/Info.plist
+        CURRENT_PROJECT_VERSION: "1"
+        ENABLE_USER_SCRIPT_SANDBOXING: YES

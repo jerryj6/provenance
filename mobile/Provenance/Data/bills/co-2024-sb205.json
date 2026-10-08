@@ -1,0 +1,16 @@
+{
+  "id": "co-2024-sb205",
+  "jurisdiction": "CO",
+  "number": "SB24-205",
+  "session": "2024",
+  "source": "public",
+  "text_path": "data/raw/co-2024-sb205.pdf",
+  "text_sha256": "78e005452a2a05176618c4b84f2b772d14b47eb1b8e556414a40fe49fae98d77",
+  "title": "Consumer Protections for Artificial Intelligence",
+  "topics": [
+    "artificial intelligence",
+    "consumer protection"
+  ],
+  "url": "https://leg.colorado.gov/sites/default/files/2024a_205_signed.pdf",
+  "word_count": 6617
+}

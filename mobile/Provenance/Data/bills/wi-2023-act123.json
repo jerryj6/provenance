@@ -1,0 +1,16 @@
+{
+  "id": "wi-2023-act123",
+  "jurisdiction": "WI",
+  "number": "2023 Act 123",
+  "session": "2023-2024",
+  "source": "public",
+  "text_path": "data/raw/wi-2023-act123.pdf",
+  "text_sha256": "a0365ae5ceb5ee8ef7dc3551aedf613fc69993bd0010ad96a6e0f81da120117a",
+  "title": "AI-generated content in political ads disclosure",
+  "topics": [
+    "artificial intelligence",
+    "elections"
+  ],
+  "url": "https://docs.legis.wisconsin.gov/document/acts/2023/123.pdf",
+  "word_count": 572
+}

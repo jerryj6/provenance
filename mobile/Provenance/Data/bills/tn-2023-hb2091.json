@@ -1,0 +1,16 @@
+{
+  "id": "tn-2023-hb2091",
+  "jurisdiction": "TN",
+  "number": "HB 2091",
+  "session": "2023-2024",
+  "source": "public",
+  "text_path": "data/raw/tn-2023-hb2091.pdf",
+  "text_sha256": "b478f5a5dcf4c0fa2491c6e8635c7b5beee40ae7ae8f57c8af0d924ea96e6ecf",
+  "title": "ELVIS Act",
+  "topics": [
+    "artificial intelligence",
+    "voice likeness"
+  ],
+  "url": "https://capitol.tn.gov/Bills/113/Bill/HB2091.pdf",
+  "word_count": 832
+}

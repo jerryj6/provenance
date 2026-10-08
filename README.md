@@ -2,7 +2,8 @@
 
 Provenance is a small, reproducible pipeline for ingesting AI-related bills and
 finding copied or model legislation through text similarity. Phase 1 contains
-the corpus ingest and lineage engine; it does not include a web frontend.
+the corpus ingest and lineage engine plus a native iOS app that presents the
+analysis as a forensic document viewer.
 
 ## Run locally
 
@@ -40,3 +41,28 @@ documents when either directional containment is at least 0.15. Linked pairs
 include the three longest matching consecutive passages with word offsets.
 Connected components of linked documents form clusters. Outputs intentionally
 store hashes, counts, metadata, scores, and evidence, not full source text.
+
+## iOS app (`mobile/`)
+
+A native SwiftUI app ships in `mobile/` and renders the committed pipeline
+outputs — no backend required. It bundles `data/manifest.json`,
+`data/lineage.json`, `data/findings.json`, and `data/bills/*.json` as app
+resources and decodes them offline at launch.
+
+- **Findings** — corpus-wide map: a tappable 9×9 similarity matrix, cluster
+  stat tiles, and a card per linked pair with a verbatim-match excerpt.
+- **Pair analysis** — directional containment bars for each bill inside the
+  other, Jaccard/shingle/passage metrics, the longest shared passages with
+  per-bill word offsets, an explicit "similarity is not provenance" caveat,
+  and links to the official bill texts.
+- **Corpus** — every bill under analysis grouped by jurisdiction, with
+  per-bill profiles (word counts, topics, lineage, source URL, text SHA-256).
+- **Method** — the normalize/shingle/compare pipeline and honest limitations.
+
+Build it with XcodeGen + Xcode:
+
+```sh
+cd mobile
+xcodegen generate
+open Provenance.xcodeproj   # run on any iPhone simulator, iOS 18+
+```

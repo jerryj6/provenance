@@ -1,0 +1,17 @@
+{
+  "id": "mn-2023-hf1370",
+  "jurisdiction": "MN",
+  "number": "HF 1370",
+  "session": "2023",
+  "source": "public",
+  "text_path": "data/raw/mn-2023-hf1370.html",
+  "text_sha256": "dc0d73a2e21f2f4286cece4c07e0998cb52b2609d266d86060fa9606355f64fa",
+  "title": "Deepfake technology; use in elections/sexual deepfakes",
+  "topics": [
+    "deepfake",
+    "elections",
+    "synthetic media"
+  ],
+  "url": "https://www.revisor.mn.gov/bills/text.php?number=HF1370&version=latest&session=ls93&session_year=2023&session_number=0",
+  "word_count": 5023
+}

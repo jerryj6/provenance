@@ -1,0 +1,17 @@
+{
+  "id": "ca-2023-ab2839",
+  "jurisdiction": "CA",
+  "number": "AB 2839",
+  "session": "2023-2024",
+  "source": "public",
+  "text_path": "data/raw/ca-2023-ab2839.html",
+  "text_sha256": "8f4cf2ccd1fc8c05831df95379b8595d5d7dbc2ed1848290858041a8bf889470",
+  "title": "Elections: deceptive media in advertisements",
+  "topics": [
+    "deepfake",
+    "synthetic media",
+    "elections"
+  ],
+  "url": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2839",
+  "word_count": 3551
+}

@@ -1,0 +1,16 @@
+{
+  "id": "ut-2024-sb149",
+  "jurisdiction": "UT",
+  "number": "SB 149",
+  "session": "2024",
+  "source": "public",
+  "text_path": "data/raw/ut-2024-sb149.html",
+  "text_sha256": "02db4dfb7fcc9c536f4aa7e006458da3ed0ba3567a7cc4478db9e3d5c3195514",
+  "title": "Artificial Intelligence Policy Act",
+  "topics": [
+    "artificial intelligence",
+    "consumer protection"
+  ],
+  "url": "https://le.utah.gov/~2024/bills/static/SB0149.html",
+  "word_count": 1077
+}
